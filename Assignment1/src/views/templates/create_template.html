@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Notification Template</title>
+</head>
+<body>
+    <h1>Create Template</h1>
+    <form method="post" action="/create_template">
+        <label for="template_name">Template Name:</label><br>
+        <input type="text" id="template_name" name="template_name" required><br><br>
+        
+        <label for="template_subject">Template Subject:</label><br>
+        <input type="text" id="template_subject" name="template_subject" required><br><br>
+        
+        <label for="template_body">Template Body:</label><br>
+        <textarea id="template_body" name="template_body" rows="10" cols="60" required></textarea><br><br>
+        
+        <button type="submit">Save Template</button>
+    </form>
+</body>
+</html>

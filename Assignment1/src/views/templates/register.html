@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Food Pantry Notification System</title>
+    <style>
+        .success { color: green; }
+        .danger { color: red; }
+        .warning { color: orange; }
+        .default { color: black; }
+    </style>
+</head>
+<body>
+
+    <!-- Flash Message Block -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% set class_name = category if category in ['success', 'danger', 'warning'] else 'default' %}
+                <p class="{{ class_name }}"><strong>{{ message }}</strong></p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h2>Register</h2>
+    <form action="/register" method="POST">
+        <label for="fullname">Full Name:</label><br>
+        <input type="text" id="fullname" name="fullname" required><br><br>
+
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <label for="confirmPassword">Confirm Password:</label><br>
+        <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p>Already have an account? <a href="/login">Login here</a></p>
+
+</body>
+</html>
+
+
+
+
+
+
+

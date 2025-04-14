@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Notifications</title>
+    <style>
+        .success { color: green; }
+        .danger { color: red; }
+        .warning { color: orange; }
+        .default { color: black; }
+    </style>
+</head>
+<body>
+    <h1>Post a Notification</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% set class_name = category if category in ['success', 'danger', 'warning'] else 'default' %}
+                <p class="{{ class_name }}"><strong>{{ message }}</strong></p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form action="/notifications" method="POST">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" required rows="4" cols="40"></textarea><br><br>
+
+        <button type="submit">Send Notification</button>
+    </form>
+
+    <hr>
+
+    <h2>Existing Notifications</h2>
+    {% if notifications %}
+        <ul>
+            {% for note in notifications %}
+                <li>
+                    <strong>{{ note.title }}</strong> <br>
+                    {{ note.message }} <br>
+                    <small>Posted by: {{ note.createdBy }} at {{ note.sent_at }}</small>
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No notifications found.</p>
+    {% endif %}
+
+    <p><a href="/dashboard">Back to Dashboard</a></p>
+</body>
+</html>
