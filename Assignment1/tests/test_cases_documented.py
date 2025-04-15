@@ -15,7 +15,7 @@
 # Test Case 1: Navigate to Project Directory
 # --------------------------------------------------------
 # Command:
-# cd "C:\Users\Admin\OneDrive\Desktop\School Computer Inforrmation Systems\CIS234A_Real_World_Programming\Calendar_Weeks\Real World Programming Team Project"
+# cd "E:\CloudData\Desktop\School Computer Inforrmation Systems\CIS234A_Real_World_Programming\Calendar_Weeks\Real World Programming Team Project\Assignment1>"
 #  Verifies local folder structure and sprint repo setup.
 
 # --------------------------------------------------------
@@ -43,7 +43,7 @@
 # Command:
 # python app.py
 #  Check:
-# * Running on http://localhost:3000/ or http://localhost:5001/
+# * Running on http://localhost:5001/ or http://localhost:5001/
 # Browser loads default route or HTML page
 
 # --------------------------------------------------------
@@ -51,7 +51,7 @@
 # --------------------------------------------------------
 # Command:
 # curl -X POST http://localhost:3000/register -H "Content-Type: application/json" \
-# -d "{\"name\": \"John Doe\", \"username\": \"johnd\", \"email\": \"john@example.com\", \"password\": \"pass123\", \"confirm_password\": \"pass123\"}"
+# -d "{\"name\": \"Khaylub\", \"username\": \"Khaylub\", \"email\": \"Khaylub.thompsoncalvin@pcc.edu\", \"password\": \"pass123\", \"confirm_password\": \"pass123\"}"
 # Check: {"message": "Registration successful"}
 
 # --------------------------------------------------------
@@ -59,7 +59,7 @@
 # --------------------------------------------------------
 # Command:
 # curl -X POST http://localhost:3000/login -H "Content-Type: application/json" \
-# -d "{\"email\": \"john@example.com\", \"password\": \"pass123\"}"
+# -d "{\"email\": \"Khaylub.thompsoncalvin@pcc.edu\", \"password\": \"pass123\"}"
 # Check: {"message": "Login successful"}
 # Try incorrect password:
 # {"error": "Invalid credentials"}
@@ -74,23 +74,23 @@
 # Test Case 8: Notifications Blueprint (GET)
 # --------------------------------------------------------
 # Command:
-# curl http://localhost:3000/notifications/test
+# curl http://localhost:5001/notifications/test
 # Check: {"message": "Notifications module is working"}
 
 # --------------------------------------------------------
 # Test Case 9: HTML Form Rendering (GET)
 # --------------------------------------------------------
 # URLS:
-# http://localhost:3000/register
-# http://localhost:3000/login
+# http://localhost:5001/register
+# http://localhost:5001/login
 # Check: Pages load, form fields appear
 
 # --------------------------------------------------------
 # Test Case 10: PowerShell Invoke-RestMethod (Optional)
 # --------------------------------------------------------
 # Command:
-# Invoke-RestMethod -Uri "http://localhost:3000/login" -Method Post -Body @{
-#     email = "john@example.com"
+# Invoke-RestMethod -Uri "http://localhost:5001/login" -Method Post -Body @{
+#     email = "Khaylub.thompsoncalvin@pcc.edu"
 #     password = "pass123"
 # } -ContentType "application/json"
 # Check: Login successful response
