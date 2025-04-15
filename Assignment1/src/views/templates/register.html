@@ -1,51 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register - Food Pantry Notification System</title>
-    <style>
-        .success { color: green; }
-        .danger { color: red; }
-        .warning { color: orange; }
-        .default { color: black; }
-    </style>
-</head>
-<body>
+<!--
+ File: register.html
+ Course: CIS 234A - Real World Programming
+ Author: Khaylub Thompson-Calvin
+ Date: 04/13/2025
+ Description:
+ This template provides the registration page for the Food Pantry Notification System.
+ It extends the base layout and defines blocks for title, header, and main content.
 
-    <!-- Flash Message Block -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                {% set class_name = category if category in ['success', 'danger', 'warning'] else 'default' %}
-                <p class="{{ class_name }}"><strong>{{ message }}</strong></p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+ References:
+ - Flask Templating Docs: https://flask.palletsprojects.com/
+ - Jinja2 Documentation: https://jinja.palletsprojects.com/
+-->
 
-    <h2>Register</h2>
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+{% block header %}Create Your Account{% endblock %}
+
+{% block content %}
     <form action="/register" method="POST">
-        <label for="fullname">Full Name:</label><br>
-        <input type="text" id="fullname" name="fullname" required><br><br>
+        <label for="fullname">Full Name:</label>
+        <input type="text" id="fullname" name="fullname" required>
 
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
 
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
 
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
 
-        <label for="confirmPassword">Confirm Password:</label><br>
-        <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
 
         <button type="submit">Register</button>
     </form>
 
-    <p>Already have an account? <a href="/login">Login here</a></p>
+    <p style="text-align:center; margin-top: 20px;">
+        Already have an account? <a href="/login">Login here</a>
+    </p>
+{% endblock %}
 
-</body>
-</html>
 
 
 

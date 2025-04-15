@@ -1,3 +1,31 @@
+# File: app.py
+# Course: CIS 234A – Real World Programming
+# Project: Food Pantry Notification System – Sprint 1
+# Author: Khaylub Thompson-Calvin
+# Date: 04/14/2025
+# Description:
+# This module implements the core web interface for the Food Pantry Notification System using Flask.
+# It includes user registration, login, session management, and CRUD operations for posting
+# notifications, managing templates, and viewing logs. Authentication is enforced using
+# session cookies and login decorators. MongoDB is used for all backend data storage,
+# including subscribers, notifications, and templates.
+#
+# Useful Features:
+# - Login with username or email (flexible identifier)
+# - Password hashing with Werkzeug
+# - Flash messaging for status alerts
+# - Flask Blueprint support for modular controllers
+# - Notification posting & filtering
+# - Template creation for reusable messages
+# - Log viewing with date-based filtering
+#
+# References:
+# - Flask Documentation: https://flask.palletsprojects.com/
+# - MongoDB Python Driver (PyMongo): https://pymongo.readthedocs.io/
+# - Werkzeug Security: https://werkzeug.palletsprojects.com/
+# - PCC CIS234A Course Materials
+
+
 import sys
 import os
 from datetime import datetime, timedelta
@@ -143,9 +171,38 @@ def notifications():
     all_notifications = list(mongo.db.notifications.find())
     return render_template('notifications.html', notifications=all_notifications, username=session.get('username'))
 
-# ----------------------------------------------------------------------
+
+# Create Template Route
+
+@app.route('/create_template', methods=['GET', 'POST'])
+@login_required
+def create_template():
+    if request.method == 'POST':
+        template_name = request.form.get('template_name')
+        template_subject = request.form.get('template_subject')
+        template_body = request.form.get('template_body')
+
+        if not template_name or not template_subject or not template_body:
+            flash("All fields are required.", "danger")
+        else:
+            try:
+                mongo.db.templates.insert_one({
+                    "name": template_name,
+                    "subject": template_subject,
+                    "body": template_body,
+                    "createdBy": session.get("username"),
+                    "created_at": datetime.utcnow()
+                })
+                flash("Template saved successfully!", "success")
+                return redirect(url_for('create_template'))
+            except Exception as e:
+                flash(f"Error saving template: {str(e)}", "danger")
+
+    return render_template("create_template.html")
+
+
 # Notification Log
-# ----------------------------------------------------------------------
+
 @app.route('/notification_log', methods=['GET'])
 @login_required
 def notification_log():
@@ -164,27 +221,28 @@ def notification_log():
     notifications = list(mongo.db.notifications.find(query))
     return render_template('notification_log.html', notifications=notifications)
 
-# ----------------------------------------------------------------------
+
 # Logout
-# ----------------------------------------------------------------------
+
 @app.route('/logout')
 def logout():
     session.clear()
     flash("You have been logged out.", "info")
     return redirect(url_for('show_login'))
 
-# ----------------------------------------------------------------------
+
 # Home
-# ----------------------------------------------------------------------
+
 @app.route('/')
 def index():
-    return 'Welcome to the Food Pantry Notification System!'
+    return redirect(url_for('show_login'))
 
-# ----------------------------------------------------------------------
+
 # Run the app
-# ----------------------------------------------------------------------
+
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
+
 
 
 

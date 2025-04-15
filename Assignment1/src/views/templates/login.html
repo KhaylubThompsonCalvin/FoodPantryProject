@@ -1,41 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login - Food Pantry Notification System</title>
-    <style>
-        .success { color: green; }
-        .danger { color: red; }
-        .warning { color: orange; }
-        .default { color: black; }
-    </style>
-</head>
-<body>
+<!--
+ File: login.html
+ Course: CIS 234A - Real World Programming
+ Author: Khaylub Thompson-Calvin
+ Date: 04/13/2025
+ Description:
+ This template provides a login form for the Food Pantry Notification System.
+ It extends the base layout and defines blocks for title, header, and content.
 
-    <!-- Flash Message Block -->
+ References:
+ - Flask Templating Docs: https://flask.palletsprojects.com/
+ - Jinja2 Documentation: https://jinja.palletsprojects.com/
+-->
+
+{% extends "base.html" %}
+
+{% block title %}Login - Food Pantry{% endblock %}
+{% block header %}Login to Food Pantry{% endblock %}
+
+{% block content %}
+<div class="container">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-                {% set class_name = category if category in ['success', 'danger', 'warning'] else 'default' %}
-                <p class="{{ class_name }}"><strong>{{ message }}</strong></p>
+                <div class="flash-message {{ category }}">
+                    <strong>{{ message }}</strong>
+                </div>
             {% endfor %}
         {% endif %}
     {% endwith %}
 
-    <h2>Login</h2>
     <form action="/login" method="POST">
-        <label for="identifier">Username or Email:</label><br>
-        <input type="text" id="identifier" name="identifier" required><br><br>
+        <label for="identifier">Username or Email:</label>
+        <input type="text" id="identifier" name="identifier" required>
 
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
 
         <button type="submit">Login</button>
     </form>
 
-    <p>Don't have an account? <a href="/register">Register here</a></p>
-
-</body>
-</html>
+    <p style="margin-top: 10px;">No account? <a href="/register">Register here</a></p>
+</div>
+{% endblock %}
 
 
