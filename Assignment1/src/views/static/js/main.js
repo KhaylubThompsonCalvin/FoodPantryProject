@@ -1,4 +1,15 @@
-// main.js - Global client-side interactions for the Food Pantry Notification System
+/*
+File: main.js
+Course: CIS 234A – Real World Programming
+Project: Food Pantry Notification System
+Author: Khaylub Thompson-Calvin
+Date: 04/15/2025
+Description:
+This file contains all global client-side JavaScript interactions for the 
+Food Pantry Notification System project. It includes flash message fading, 
+form validation, and real-time character counters for templates and notifications.
+*/
+
 document.addEventListener('DOMContentLoaded', () => {
     // Auto-hide flash messages
     const flashMessages = document.querySelectorAll('.flash-message');

@@ -100,5 +100,3 @@
 # --------------------------------------------------------
 # Confirm that passwords in MongoDB begin with $pbkdf2-sha256$
 # Shows password hashing using Werkzeug is active and plaintext is avoided
-
-

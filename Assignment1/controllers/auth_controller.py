@@ -20,99 +20,105 @@ from bson.objectid import ObjectId
 
 # Blueprint Configuration
 
-auth_bp = Blueprint('auth', __name__, url_prefix='/')
+auth_bp = Blueprint("auth", __name__, url_prefix="/")
 
 
 # MongoDB Connection
 
 mongo = MongoClient("mongodb://localhost:27017/")
-db = mongo['foodPantry']
-subscribers_collection = db['subscribers']
+db = mongo["foodPantry"]
+subscribers_collection = db["subscribers"]
 
 
 # Route: Show Registration Form
 
-@auth_bp.route('/register', methods=['GET'])
+
+@auth_bp.route("/register", methods=["GET"])
 def show_register():
-    if 'user_id' in session:
-        return redirect(url_for('dashboard'))
-    return render_template('register.html')
+    if "user_id" in session:
+        return redirect(url_for("dashboard"))
+    return render_template("register.html")
 
 
 # Route: Handle Registration Form Submission
 
-@auth_bp.route('/register', methods=['POST'])
+
+@auth_bp.route("/register", methods=["POST"])
 def register():
     data = request.form
-    fullname = data.get('fullname')
-    username = data.get('username')
-    email = data.get('email')
-    password = data.get('password')
-    confirm_password = data.get('confirmPassword')
+    fullname = data.get("fullname")
+    username = data.get("username")
+    email = data.get("email")
+    password = data.get("password")
+    confirm_password = data.get("confirmPassword")
 
     if password != confirm_password:
         flash("Passwords do not match.", "danger")
-        return redirect(url_for('auth.show_register'))
+        return redirect(url_for("auth.show_register"))
 
     subscriber = {
         "fullName": fullname,
         "username": username,
         "email": email,
         "password": generate_password_hash(password),
-        "role": "subscriber"
+        "role": "subscriber",
     }
 
     try:
         subscribers_collection.insert_one(subscriber)
         flash("Registration successful! Please log in.", "success")
-        return redirect(url_for('auth.show_login'))
+        return redirect(url_for("auth.show_login"))
     except Exception as e:
         if "E11000" in str(e):
             flash("Username or Email already exists.", "warning")
         else:
             flash(f"Registration failed: {str(e)}", "danger")
-        return redirect(url_for('auth.show_register'))
+        return redirect(url_for("auth.show_register"))
 
 
 # Route: Show Login Form
 
-@auth_bp.route('/login', methods=['GET'])
+
+@auth_bp.route("/login", methods=["GET"])
 def show_login():
-    if 'user_id' in session:
-        return redirect(url_for('dashboard'))
-    return render_template('login.html')
+    if "user_id" in session:
+        return redirect(url_for("dashboard"))
+    return render_template("login.html")
+
 
 # Route: Handle Login Form Submission
 
-@auth_bp.route('/login', methods=['POST'])
+
+@auth_bp.route("/login", methods=["POST"])
 def login():
     data = request.form
-    identifier = data.get('identifier')
-    password = data.get('password')
+    identifier = data.get("identifier")
+    password = data.get("password")
 
     try:
-        user = subscribers_collection.find_one({
-            "$or": [{"username": identifier}, {"email": identifier}]
-        })
+        user = subscribers_collection.find_one(
+            {"$or": [{"username": identifier}, {"email": identifier}]}
+        )
 
-        if user and check_password_hash(user['password'], password):
-            session['user_id'] = str(user['_id'])
-            session['username'] = user['username']
+        if user and check_password_hash(user["password"], password):
+            session["user_id"] = str(user["_id"])
+            session["username"] = user["username"]
             flash("Login successful!", "success")
-            return redirect(url_for('dashboard'))
+            return redirect(url_for("dashboard"))
         else:
             flash("Invalid credentials. Try again.", "danger")
-            return redirect(url_for('auth.show_login'))
+            return redirect(url_for("auth.show_login"))
 
     except Exception as e:
         flash(f"Login failed: {str(e)}", "danger")
-        return redirect(url_for('auth.show_login'))
+        return redirect(url_for("auth.show_login"))
 
 
 # Route: Logout and Clear Session
 
-@auth_bp.route('/logout')
+
+@auth_bp.route("/logout")
 def logout():
     session.clear()
     flash("You have been logged out.", "info")
-    return redirect(url_for('auth.show_login'))
+    return redirect(url_for("auth.show_login"))

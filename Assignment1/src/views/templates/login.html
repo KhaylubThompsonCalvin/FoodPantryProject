@@ -2,10 +2,10 @@
  File: login.html
  Course: CIS 234A - Real World Programming
  Author: Khaylub Thompson-Calvin
- Date: 04/13/2025
+ Date: 04/15/2025
  Description:
- This template provides a login form for the Food Pantry Notification System.
- It extends the base layout and defines blocks for title, header, and content.
+ Login form template for the Food Pantry Notification System.
+ Extends base layout and applies material icon and styling updates.
 
  References:
  - Flask Templating Docs: https://flask.palletsprojects.com/
@@ -15,7 +15,10 @@
 {% extends "base.html" %}
 
 {% block title %}Login - Food Pantry{% endblock %}
-{% block header %}Login to Food Pantry{% endblock %}
+{% block header %}
+<i class="material-icons" style="vertical-align: middle; font-size: 1.4em; color: #fdd835;">emoji_food_beverage</i>
+Login to Food Pantry
+{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -36,11 +39,14 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
 
-        <button type="submit">Login</button>
+        <button type="submit">
+            <i class="material-icons">login</i> Login
+        </button>
     </form>
 
-    <p style="margin-top: 10px;">No account? <a href="/register">Register here</a></p>
+    <p style="margin-top: 10px;">No account? <a href="{{ url_for('show_register') }}">Register here</a></p>
 </div>
 {% endblock %}
+
 
 
